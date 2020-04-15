@@ -1,6 +1,4 @@
 <?php
-require_once 'database.php';
-require_once 'file_util.php';
 // Get the product data
 $category_id = filter_input(INPUT_POST, 'category_id', FILTER_VALIDATE_INT);
 
@@ -44,24 +42,8 @@ if($price_error!='' || $name_error!=''  || $code_error!=''  || $category_error!=
     exit();
 } else {
     require_once('database.php');
-
-    // Add the product to the database  
-    $query = 'INSERT INTO products
-                 (categoryID, productCode, productName, listPrice)
-              VALUES
-                 (:category_id, :code, :name, :price)';
-    $statement = $db->prepare($query);
-    $statement->bindValue(':category_id', $category_id);
-    $statement->bindValue(':code', $codeInput);
-    $statement->bindValue(':name', $name);
-    $statement->bindValue(':price', $price);
-    $statement->execute();
-    $statement->closeCursor();
-
-    // Display the Product List page
-    include('index.php');
-}
-
+	require_once 'file_util.php';
+	
 // Check if the file exists before setting it
 if (isset($_FILES['imageFile1'])) {
 	// Retrieve the name of the file based on what it was called on the client computer
@@ -79,4 +61,22 @@ if (isset($_FILES['imageFile1'])) {
 		move_uploaded_file($sourceLocation, $targetPath);
 	}
 }
+
+    // Add the product to the database  
+    $query = 'INSERT INTO products
+                 (categoryID, productCode, productName, listPrice)
+              VALUES
+                 (:category_id, :code, :name, :price)';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':category_id', $category_id);
+    $statement->bindValue(':code', $codeInput);
+    $statement->bindValue(':name', $name);
+    $statement->bindValue(':price', $price);
+    $statement->execute();
+    $statement->closeCursor();
+
+    // Display the Product List page
+    header('Location: ./index.php');
+}
+
 ?>

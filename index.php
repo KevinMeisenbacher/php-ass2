@@ -119,8 +119,18 @@ $statement3->closeCursor();
 				<?php $files = scandir($image_dir_path);
 				foreach ($products as $product) : 
 				
+				if (isset($_FILES['imageFile1'])) {
+					// Retrieve the name of the file based on what it was called on the client computer
+					$filename = $_FILES['imageFile1']['name'];
+				} else {
+					$filename = $product['productCode'] . '.png';
+				}
 				// Make the product codes match the image files to display right
-				$filename = $product['productCode'] . '.png';
+				/*if ($filename != $product['productCode'] . '.png') {
+					$filename = 'noImage.png';
+				} else {
+					$filename = $product['productCode'] . '.png';
+				}*/
 				
 				$file_url = $image_dir . DIRECTORY_SEPARATOR . $filename;?>
 				<tr>
@@ -130,10 +140,8 @@ $statement3->closeCursor();
 					<td><?php
 					
 						// Display instruments (to sight the stars)
-						if(is_file($file_url) && preg_match('/(png)/', $filename)){
+						if(is_file($file_url) && exif_imagetype ($file_url)){
 							?><img src=<?= $file_url ?> height=150px><?php ;
-						} else {
-						?><img src='noImage.png'><?php 
 						}?>
 					</td>
 					<td>
@@ -180,6 +188,7 @@ $statement3->closeCursor();
 					</td>
 				</tr>
 				<?php endforeach; ?>
+				
 			</tbody>
         </table>
         <a class="btn btn-primary" href="add_product_form.php" role="button">Add Product</a>

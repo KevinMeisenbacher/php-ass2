@@ -44,7 +44,8 @@ $statement->closeCursor();
         <h1>Add Product</h1>
 
         <form action="insert_product.php" method="post"
-              id="add_product_form">
+              id="add_product_form"
+			  enctype="multipart/form-data">
 
             <div class="form-group">
                 <label>Category:</label>
