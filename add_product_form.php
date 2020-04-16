@@ -2,6 +2,7 @@
 require_once('validate.php');
 require_once('database.php');
 require_once('db_admin.php');
+require_once('file_util.php');
 
 if(!isset($codeInput)){
     $codeInput = '';
@@ -88,7 +89,7 @@ $statement->closeCursor();
                 value="<?php echo htmlspecialchars($price); ?>"><br>
             </div>
 			
-			<!-- Upload button -->
+			<!-- Image Uploader -->
 			<div class="form-group">
                 <input type="file" class="btn btn-light" name="imageFile1"><br>
             </div>

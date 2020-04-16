@@ -121,11 +121,11 @@ $statement3->closeCursor();
 				
 				if (isset($_FILES['imageFile1'])) {
 					// Retrieve the name of the file based on what it was called on the client computer
-					$filename = $_FILES['imageFile1']['name'];
+					$filename = $_FILES['imageFile1']['imageName'];
 				} else {
 					$filename = $product['productCode'] . '.png';
 				}
-				// Make the product codes match the image files to display right
+				// Other image file initializer I was trying before
 				/*if ($filename != $product['productCode'] . '.png') {
 					$filename = 'noImage.png';
 				} else {
