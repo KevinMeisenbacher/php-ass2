@@ -118,75 +118,63 @@ $statement3->closeCursor();
 			<!-- Define files and display everything -->
 				<?php $files = scandir($image_dir_path);
 				foreach ($products as $product) : 
-				
-				if (isset($_FILES['imageFile1'])) {
-					// Retrieve the name of the file based on what it was called on the client computer
-					$filename = $_FILES['imageFile1']['imageName'];
-				} else {
 					$filename = $product['productCode'] . '.png';
-				}
-				// Other image file initializer I was trying before
-				/*if ($filename != $product['productCode'] . '.png') {
-					$filename = 'noImage.png';
-				} else {
-					$filename = $product['productCode'] . '.png';
-				}*/
+					$file_url = $image_dir . DIRECTORY_SEPARATOR . $filename;
+					?>
+					<tr>
+						<td><?php echo $product['productCode']; ?></td>
+						<td><?php echo $product['productName']; ?></td>
+						<td class="right"><?php echo $product['listPrice']; ?></td>
+						<td><?php
+						
+							// Display instruments (to sight the stars)
+							if(is_file($file_url) && exif_imagetype ($file_url)){
+								?><img src=<?= $file_url ?> height=150px><?php ;
+							}?>
+						</td>
+						<td>
+							<!-- Big form for a little update button -->
+							<form action="update_product_form.php" method="post">
+		
+							<!-- This hidden field is used to store the productID -->
+							<input type="hidden" name="product_id_hidden"
+									value="<?php echo $product['productID']; ?>">
+		
+							<!-- This is how to actually make things change when you update them -->
+							<input type="hidden" name="category_id_hidden"
+									value="<?php echo $product['categoryID']; ?>">
+									
+							<input type="hidden" name="name_hidden"
+									value="<?php echo $product['productName']; ?>">
+									
+							<input type="hidden" name="code_hidden"
+									value="<?php echo $product['productCode']; ?>">
+									
+							<input type="hidden" name="price_hidden"
+									value="<?php echo $product['listPrice']; ?>">
 				
-				$file_url = $image_dir . DIRECTORY_SEPARATOR . $filename;?>
-				<tr>
-					<td><?php echo $product['productCode']; ?></td>
-					<td><?php echo $product['productName']; ?></td>
-					<td class="right"><?php echo $product['listPrice']; ?></td>
-					<td><?php
+							<!-- Actual Update button is here -->
+							<input class="btn btn-primary" type="submit" value="Update">
+							</form>
+						</td>
 					
-						// Display instruments (to sight the stars)
-						if(is_file($file_url) && exif_imagetype ($file_url)){
-							?><img src=<?= $file_url ?> height=150px><?php ;
-						}?>
-					</td>
-					<td>
-						<!-- Big form for a little update button -->
-						<form action="update_product_form.php" method="post">
-	
-						<!-- This hidden field is used to store the productID -->
-						<input type="hidden" name="product_id_hidden"
-								value="<?php echo $product['productID']; ?>">
-	
-						<!-- This is how to actually make things change when you update them -->
-						<input type="hidden" name="category_id_hidden"
-								value="<?php echo $product['categoryID']; ?>">
-								
-						<input type="hidden" name="name_hidden"
-								value="<?php echo $product['productName']; ?>">
-								
-						<input type="hidden" name="code_hidden"
-								value="<?php echo $product['productCode']; ?>">
-								
-						<input type="hidden" name="price_hidden"
-								value="<?php echo $product['listPrice']; ?>">
-			
-						<!-- Actual Update button is here -->
-						<input class="btn btn-primary" type="submit" value="Update">
-						</form>
-					</td>
-				  
-                    <!-- We are only showing the Delete button for this form -->
-					<td>
-						<form action="delete_product.php" method="post">
-	
-						<!-- This hidden field is used to store the productID -->
-						<input type="hidden" name="product_id_hidden"
-								value="<?php echo $product['productID']; ?>">
-	
-						<!-- This hidden field is used to store the categoryID -->
-						<input type="hidden" name="category_id_hidden"
-								value="<?php echo $product['categoryID']; ?>">
-	
-						<!-- This is the button that we actually see -->
-						<input class="btn btn-warning" type="submit" value="Delete">
-						</form>
-					</td>
-				</tr>
+						<!-- We are only showing the Delete button for this form -->
+						<td>
+							<form action="delete_product.php" method="post">
+		
+							<!-- This hidden field is used to store the productID -->
+							<input type="hidden" name="product_id_hidden"
+									value="<?php echo $product['productID']; ?>">
+		
+							<!-- This hidden field is used to store the categoryID -->
+							<input type="hidden" name="category_id_hidden"
+									value="<?php echo $product['categoryID']; ?>">
+		
+							<!-- This is the button that we actually see -->
+							<input class="btn btn-warning" type="submit" value="Delete">
+							</form>
+						</td>
+					</tr>
 				<?php endforeach; ?>
 				
 			</tbody>

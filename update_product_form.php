@@ -103,6 +103,11 @@ $statement2->closeCursor();
                 <input class="form-control" type="text" name="price" id="price"
                 value="<?php echo htmlspecialchars($price); ?>"><br>
             </div>
+			
+			<!-- Image Uploader -->
+			<div class="form-group">
+                <input type="file" class="btn btn-light" name="imageFile1"><br>
+            </div>
 
             <label>&nbsp;</label>
             <input class="btn btn-primary" type="submit" value="Update Product"><br>

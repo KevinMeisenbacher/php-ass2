@@ -61,6 +61,7 @@ if($price_error!='' || $name_error!=''  || $code_error!=''  || $category_error!=
     exit();
 } else {
     require_once('database.php');
+	require_once('file_util.php');
 	
 // Update the product
     $query = "UPDATE products
@@ -77,7 +78,27 @@ if($price_error!='' || $name_error!=''  || $code_error!=''  || $category_error!=
     $statement->bindValue(':product_id', $product_id);
     $statement->execute();
     $statement->closeCursor();
+	
+	
+	// Check if the file exists before setting it
+	if (isset($_FILES['imageFile1'])) {
+		// Retrieve the name of the file based on what it was called on the client computer
+		$filename = $codeInput . '.png';
+	
+		// Make sure the filename exists 
+		if (!empty($filename)) {
+			// Store the temporary location of where the file was stored on the server
+			$sourceLocation = $_FILES['imageFile1']['tmp_name'];
+			
+			// Build the path to the images folder and use the same filename as before
+			$targetPath = $image_dir_path . DIRECTORY_SEPARATOR . $filename;
+			
+			// Move file from temp directory to images folder
+			move_uploaded_file($sourceLocation, $targetPath);
+		}
+	}
 	// display the Product List page
-	include('index.php');
+	header('Location: ./index.php');
 }
+
 ?>
